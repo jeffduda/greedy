@@ -1,7 +1,24 @@
 PROJECT(GREEDY)
 
 # Required CMake version
-CMAKE_MINIMUM_REQUIRED(VERSION 3.3)
+cmake_minimum_required(VERSION 3.10.2...3.14.2)
+cmake_policy(VERSION 3.10.2...3.14.2)
+
+if(CMAKE_CXX_STANDARD EQUAL "98" )
+   message(FATAL_ERROR "CMAKE_CXX_STANDARD:STRING=98 is not supported in ITK version 5 and greater.")
+endif()
+
+#####
+##  Set the default target properties for ITK
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 11) # Supported values are ``11``, ``14``, and ``17``.
+endif()
+if(NOT CMAKE_CXX_STANDARD_REQUIRED)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
+if(NOT CMAKE_CXX_EXTENSIONS)
+  set(CMAKE_CXX_EXTENSIONS OFF)
+endif()
 
 #--------------------------------------------------------------------------------
 # VERSION
@@ -33,7 +50,7 @@ ENDIF()
 OPTION(GREEDY_BUILD_LDDMM "Build experimental LDDMM implementation" OFF)
 
 # Do we want to use FFTW?
-CMAKE_DEPENDENT_OPTION(GREEDY_USE_FFTW 
+CMAKE_DEPENDENT_OPTION(GREEDY_USE_FFTW
   "Use features provided by the FFTW library, only for experimental LDDMM code" OFF
   "GREEDY_BUILD_LDDMM" OFF)
 
@@ -48,7 +65,7 @@ OPTION(GREEDY_BUILD_STACK_REG "Build experimental slice stack registration code"
 #--------------------------------------------------------------------------------
 
 # ITK
-FIND_PACKAGE(ITK 4.12.2 REQUIRED)
+FIND_PACKAGE(ITK 5.0 REQUIRED)
 INCLUDE(${ITK_USE_FILE})
 
 # Deal with FFTW - only used by experimental LDDMM code
@@ -119,7 +136,7 @@ SET(GREEDY_LIB_SRC
 )
 
 SET(LDDMM_SRC src/lddmm_main.cxx)
-SET(GREEDY_SRC 
+SET(GREEDY_SRC
   ${CMAKE_CURRENT_BINARY_DIR}/GreedyVersion.cxx
   src/greedy_main.cxx)
 

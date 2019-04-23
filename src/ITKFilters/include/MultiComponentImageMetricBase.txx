@@ -58,7 +58,7 @@ MultiComponentImageMetricBase<TMetricTraits>
     }
   else
     {
-    return NULL;
+    return nullptr;
     }
 }
 
@@ -110,7 +110,7 @@ MultiComponentImageMetricBase<TMetricTraits>
 
   // Create the prototype results vector
   m_ThreadData.clear();
-  for (unsigned i = 0; i < this->GetNumberOfThreads(); i++)
+  for (unsigned i = 0; i < this->GetNumberOfWorkUnits(); i++)
     {
     ThreadData td;
     td.comp_metric = vnl_vector<double>(fixed->GetNumberOfComponentsPerPixel(), 0.0);

@@ -250,7 +250,7 @@ MultiImageOpticalFlowHelper<TFloat, VDim>
           LDDMMType::img_downsample(fltExtractFixed->GetOutput(), lFixed, m_PyramidFactors[i]);
           LDDMMType::img_downsample(fltExtractMoving->GetOutput(), lMoving, m_PyramidFactors[i]);
 
-          // For the Mahalanobis metric, the fixed image needs to be scaled by the factor of the 
+          // For the Mahalanobis metric, the fixed image needs to be scaled by the factor of the
           // pyramid level because it describes voxel coordinates
           if(m_ScaleFixedImageWithVoxelSize)
             LDDMMType::img_scale_in_place(lFixed, 1.0 / m_PyramidFactors[i]);
@@ -298,7 +298,7 @@ MultiImageOpticalFlowHelper<TFloat, VDim>
     }
 
   // Set up the mask pyramid
-  m_GradientMaskComposite.resize(m_PyramidFactors.size(), NULL);
+  m_GradientMaskComposite.resize(m_PyramidFactors.size(), nullptr);
   if(m_GradientMaskImage)
     {
     for(int i = 0; i < m_PyramidFactors.size(); i++)
@@ -315,7 +315,7 @@ MultiImageOpticalFlowHelper<TFloat, VDim>
         // Downsampling the mask involves smoothing, so the mask will no longer be binary
         LDDMMType::img_downsample(m_GradientMaskImage, m_GradientMaskComposite[i], m_PyramidFactors[i]);
         LDDMMType::img_threshold_in_place(m_GradientMaskComposite[i], 0.5, 1e100, 1.0, 0.0);
-        }      
+        }
       }
     }
   else if(m_GradientMaskTrimRadius.size() > 0)
@@ -350,7 +350,7 @@ MultiImageOpticalFlowHelper<TFloat, VDim>
     }
 
   // Set up the moving mask pyramid
-  m_MovingMaskComposite.resize(m_PyramidFactors.size(), NULL);
+  m_MovingMaskComposite.resize(m_PyramidFactors.size(), nullptr);
   if(m_MovingMaskImage)
     {
     for(int i = 0; i < m_PyramidFactors.size(); i++)
@@ -374,7 +374,7 @@ MultiImageOpticalFlowHelper<TFloat, VDim>
     }
 
   // Set up the jitter images
-  m_JitterComposite.resize(m_PyramidFactors.size(), NULL);
+  m_JitterComposite.resize(m_PyramidFactors.size(), nullptr);
   if(m_JitterSigma > 0)
     {
     for(int i = 0; i < m_PyramidFactors.size(); i++)
@@ -617,8 +617,8 @@ MultiImageOpticalFlowHelper<TFloat, VDim>
 template <class TFloat, unsigned int VDim>
 double
 MultiImageOpticalFlowHelper<TFloat, VDim>
-::ComputeMahalanobisMetricImage(int level, VectorImageType *def, 
-  FloatImageType *out_metric, 
+::ComputeMahalanobisMetricImage(int level, VectorImageType *def,
+  FloatImageType *out_metric,
   VectorImageType *out_gradient)
 {
   typedef DefaultMahalanobisDistanceToTargetMetricTraits<TFloat, VDim> TraitsType;
@@ -972,7 +972,7 @@ protected:
   ~UnaryPositionBasedFunctorImageFilter() {}
 
   virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                                    itk::ThreadIdType threadId) ITK_OVERRIDE 
+                                    itk::ThreadIdType threadId) ITK_OVERRIDE
   {
     typedef itk::ImageRegionConstIteratorWithIndex<TInputImage> InputIter;
     InputIter it_in(this->GetInput(), outputRegionForThread);
@@ -1230,10 +1230,10 @@ MultiImageOpticalFlowHelper<TFloat, VDim>
 }
 
 template <class TFloat, unsigned int VDim>
-void 
+void
 MultiImageOpticalFlowHelper<TFloat, VDim>
 ::ComputeWarpSquareRoot(
-  VectorImageType *warp, VectorImageType *out, VectorImageType *work, 
+  VectorImageType *warp, VectorImageType *out, VectorImageType *work,
   FloatImageType *error_norm, double tol, int max_iter)
 {
   typedef LDDMMData<TFloat, VDim> LDDMMType;
@@ -1248,7 +1248,7 @@ MultiImageOpticalFlowHelper<TFloat, VDim>
   for(int i = 0; i < max_iter; i++)
     {
     // Min and max norm of the error at this iteration
-    TFloat norm_max = tol, norm_min = 0.0; 
+    TFloat norm_max = tol, norm_min = 0.0;
 
     // Perform a single iteration
     LDDMMType::interp_vimg(v, v, 1.0, work);   // work = v(v(x))
@@ -1278,7 +1278,7 @@ MultiImageOpticalFlowHelper<TFloat, VDim>
 
 
 template <class TFloat, unsigned int VDim>
-void 
+void
 MultiImageOpticalFlowHelper<TFloat, VDim>
 ::ComputeWarpRoot(VectorImageType *warp, VectorImageType *root, int exponent, TFloat tol, int max_iter)
 {
@@ -1304,7 +1304,7 @@ MultiImageOpticalFlowHelper<TFloat, VDim>
     {
     error_norm = LDDMMType::new_img(warp);
     }
-    
+
   // Compute the square root 'exponent' times
   for(int k = 0; k < exponent; k++)
     {
@@ -1331,7 +1331,7 @@ MultiImageOpticalFlowHelper<TFloat, VDim>
   VectorImagePointer uForward = LDDMMType::new_vimg(warp);
   LDDMMType::vimg_copy(warp, uForward);
 
-  // Create a working image 
+  // Create a working image
   VectorImagePointer uWork = LDDMMType::new_vimg(warp);
 
   // Take the desired square root of the input warp and place into uForward

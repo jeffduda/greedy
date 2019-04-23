@@ -247,7 +247,7 @@ protected:
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** Override input checks to allow fixed and moving to be in different space */
-  virtual void VerifyInputInformation() ITK_OVERRIDE {}
+  virtual void VerifyInputInformation() {}
 
 private:
   MultiImageNCCPrecomputeFilter(const Self&); //purposely not implemented

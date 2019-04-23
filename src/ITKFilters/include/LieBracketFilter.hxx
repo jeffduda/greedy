@@ -45,10 +45,10 @@ LieBracketFilter< TInputImage, TOutputImage>
   // For the images U and V, we need to expand their region by radius of one
   for(int i = 0; i < 2; i++)
     {
-    InputImageType *input = (i == 0) ? this->GetFieldU() : this->GetFieldV(); 
+    InputImageType *input = (i == 0) ? this->GetFieldU() : this->GetFieldV();
     typename InputImageType::RegionType inputRR = input->GetRequestedRegion();
     inputRR.PadByRadius(1);
-    
+
     if ( inputRR.Crop( input->GetLargestPossibleRegion() ) )
       {
       input->SetRequestedRegion(inputRR);
@@ -120,7 +120,7 @@ LieBracketFilter< TInputImage, TOutputImage>
     int line_len = outputRegionForThread.GetSize(i);
 
     // Test whether there is data to the left and to the right (or we should use zeros)
-    typename InputImageType::IndexType test_idx = it.GetIndex(); 
+    typename InputImageType::IndexType test_idx = it.GetIndex();
     test_idx[i] = it.GetIndex()[i] - 1;
     bool have_u_left = u->GetBufferedRegion().IsInside(test_idx);
     bool have_v_left = v->GetBufferedRegion().IsInside(test_idx);
@@ -150,10 +150,12 @@ LieBracketFilter< TInputImage, TOutputImage>
         u_right = ptr_u + stride_u; v_right = ptr_v + stride_v;
 
         // Compute the directional derivative of u and v
-        for(int k = 0; k < InputImageDimension; k++)
-          ptr_out[k] += scale * (
-            ((*u_right)[k] - (*u_left)[k]) * (*ptr_v)[i] - 
+        for(int k = 0; k < InputImageDimension; k++) {
+          (*ptr_out)[k] += scale * (
+            ((*u_right)[k] - (*u_left)[k]) * (*ptr_v)[i] -
             ((*v_right)[k] - (*v_left)[k]) * (*ptr_u)[i]);
+          }
+
 
         // Update the pointers
         u_left = ptr_u; v_left = ptr_v;
@@ -166,8 +168,8 @@ LieBracketFilter< TInputImage, TOutputImage>
 
       // Compute the directional derivative of u and v
       for(int k = 0; k < InputImageDimension; k++)
-        ptr_out[k] += scale * (
-          ((*u_right)[k] - (*u_left)[k]) * (*ptr_v)[i] - 
+        (*ptr_out)[k] += scale * (
+          ((*u_right)[k] - (*u_left)[k]) * (*ptr_v)[i] -
           ((*v_right)[k] - (*v_left)[k]) * (*ptr_u)[i]);
       }
     }

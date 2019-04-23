@@ -189,7 +189,7 @@ MultiComponentMutualInfoImageMetric<TMetricTraits>
   m_MIThreadData.clear();
 
   // Create the per-thread histograms
-  m_MIThreadData.resize(this->GetNumberOfThreads(),
+  m_MIThreadData.resize(this->GetNumberOfWorkUnits(),
                         HistogramAccumType(ncomp, vnl_matrix<RealType>(m_Bins, m_Bins, 0.0)));
 
   // Initialize the gradient matrices
@@ -197,10 +197,10 @@ MultiComponentMutualInfoImageMetric<TMetricTraits>
     m_GradWeights.resize(ncomp, vnl_matrix<RealType>(m_Bins, m_Bins, 0.0));
 
   // Code to determine the actual number of threads used below
-  itk::ThreadIdType nbOfThreads = this->GetNumberOfThreads();
-  if ( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
+  itk::ThreadIdType nbOfThreads = this->GetNumberOfWorkUnits();
+  if ( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
     {
-    nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
+    nbOfThreads = std::min( this->GetNumberOfWorkUnits(), itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
     }
 
   itk::ImageRegion<ImageDimension> splitRegion;  // dummy region - just to call
@@ -282,7 +282,7 @@ MultiComponentMutualInfoImageMetric<TMetricTraits>
           RealType &Pfm = hc.Pfm(bf,bm);
 
           // Add the entries from all threads
-          for (unsigned q = 0; q < this->GetNumberOfThreads(); q++)
+          for (unsigned q = 0; q < this->GetNumberOfWorkUnits(); q++)
             Pfm += m_MIThreadData[q][c][bf][bm];
 
           // Accumulate the sum of all entries
@@ -459,13 +459,13 @@ MutualInformationPreprocessingFilter<TInputImage, TOutputImage>
 ::BeforeThreadedGenerateData()
 {
   m_ThreadData.clear();
-  m_ThreadData.resize(this->GetNumberOfThreads());
+  m_ThreadData.resize(this->GetNumberOfWorkUnits());
 
   // Code to determine the actual number of threads used below
-  itk::ThreadIdType nbOfThreads = this->GetNumberOfThreads();
-  if ( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
+  itk::ThreadIdType nbOfThreads = this->GetNumberOfWorkUnits();
+  if ( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
     {
-    nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
+    nbOfThreads = std::min( this->GetNumberOfWorkUnits(), itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
     }
 
   typename TOutputImage::RegionType splitRegion;  // dummy region - just to call
@@ -527,7 +527,7 @@ MutualInformationPreprocessingFilter<TInputImage, TOutputImage>
     if(threadId == 0)
       {
       // Combine the priority queues
-      for(unsigned q = 1; q < this->GetNumberOfThreads(); q++)
+      for(unsigned q = 1; q < this->GetNumberOfWorkUnits(); q++)
         {
         ThreadData &tdq = m_ThreadData[q];
         while(!tdq.heap_lower.empty())

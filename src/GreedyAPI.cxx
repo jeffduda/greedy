@@ -57,7 +57,7 @@
 
 
 
-// Helper function to get the RAS coordinate of the center of 
+// Helper function to get the RAS coordinate of the center of
 // an image
 template <unsigned int VDim>
 vnl_vector<double>
@@ -707,7 +707,7 @@ int GreedyApproach<VDim, TReal>
         }
       else if(param.affine_init_mode == IMG_CENTERS)
         {
-        // Find a translation that maps center voxel of fixed image to the center 
+        // Find a translation that maps center voxel of fixed image to the center
         // voxel of the moving image
         vnl_matrix<double> Qp(VDim+1, VDim+1); Qp.set_identity();
         vnl_vector<double> cfix = GetImageCenterinNiftiSpace(of_helper.GetReferenceSpace(level));
@@ -873,7 +873,7 @@ int GreedyApproach<VDim, TReal>
         // every time is a little more costly, but it avoids this issue
         vnl_vector<double> xGradDummy(acf->get_number_of_unknowns(), 0.0);
 
-        // Four-point derivative computation        
+        // Four-point derivative computation
         acf->compute(x1, &f1, &xGradDummy);
         acf->compute(x2, &f2, &xGradDummy);
         acf->compute(x3, &f3, &xGradDummy);
@@ -1005,7 +1005,7 @@ int GreedyApproach<VDim, TReal>
   ReadImages(param, of_helper);
 
   // An image pointer desribing the current estimate of the deformation
-  VectorImagePointer uLevel = NULL;
+  VectorImagePointer uLevel = nullptr;
 
   // The number of resolution levels
   unsigned nlevels = param.iter_per_level.size();
@@ -1030,7 +1030,7 @@ int GreedyApproach<VDim, TReal>
     std::cout << "  Smoothing sigmas: " << sigma_pre_phys << ", " << sigma_post_phys << std::endl;
 
     // Set up timers for different critical components of the optimization
-    itk::TimeProbe tm_Gradient, tm_Gaussian1, tm_Gaussian2, tm_Iteration, 
+    itk::TimeProbe tm_Gradient, tm_Gaussian1, tm_Gaussian2, tm_Iteration,
       tm_Integration, tm_Update;
 
     // Intermediate images
@@ -1045,7 +1045,7 @@ int GreedyApproach<VDim, TReal>
     // A pointer to the full warp image - either uk in greedy mode, or uk_exp in diff demons mdoe
     VectorImageType *uFull;
 
-    // Matrix work image (for Lie Bracket) 
+    // Matrix work image (for Lie Bracket)
     typedef typename LDDMMType::MatrixImageType MatrixImageType;
     typename MatrixImageType::Pointer work_mat = MatrixImageType::New();
 
@@ -1326,7 +1326,7 @@ int GreedyApproach<VDim, TReal>
         // Vercauteren (2008) suggests using the following expressions
         // v' = v + u (so-so)
         // v' = v + u + [v, u]/2 (this is the Lie bracket)
-        
+
         // Scale the update by 1 / 2^exponent (tiny update, first order approximation)
         LDDMMType::vimg_scale_in_place(viTemp, 1.0 / (2 << param.warp_exponent));
 
@@ -1335,7 +1335,7 @@ int GreedyApproach<VDim, TReal>
           {
           // Use the Lie Bracket approximation (v + u + [v,u])
           LDDMMType::lie_bracket(uk, viTemp, work_mat, uk1);
-          LDDMMType::vimg_scale_in_place(uk1, 0.5); 
+          LDDMMType::vimg_scale_in_place(uk1, 0.5);
           LDDMMType::vimg_add_in_place(uk1, uk);
           LDDMMType::vimg_add_in_place(uk1, viTemp);
           }
@@ -1382,7 +1382,7 @@ int GreedyApproach<VDim, TReal>
       printf("END OF LEVEL %5d    DetJac Range: %8.4f  to %8.4f \n", level, jac_min, jac_max);
 
       // Print timing information
-      printf("  Avg. Gradient Time  : %6.4fs  %5.2f%% \n", tm_Gradient.GetMean(), 
+      printf("  Avg. Gradient Time  : %6.4fs  %5.2f%% \n", tm_Gradient.GetMean(),
              tm_Gradient.GetMean() * 100.0 / tm_Iteration.GetMean());
       printf("  Avg. Gaussian Time  : %6.4fs  %5.2f%% \n", tm_Gaussian1.GetMean() + tm_Gaussian2.GetMean(),
              (tm_Gaussian1.GetMean() + tm_Gaussian2.GetMean()) * 100.0 / tm_Iteration.GetMean());
@@ -1394,7 +1394,7 @@ int GreedyApproach<VDim, TReal>
 
   // The transformation field is in voxel units. To work with ANTS, it must be mapped
   // into physical offset units - just scaled by the spacing?
-  
+
   if(param.flag_stationary_velocity_mode)
     {
     // Take current warp to 'exponent' power - this is the actual warp
@@ -1577,7 +1577,7 @@ void GreedyApproach<VDim, TReal>
         double absexp = fabs(tran_chain[i].exponent);
         double n_real = log(absexp) / log(2.0);
         int n = (int) (n_real + 0.5);
-        if(fabs(n - n_real) > 1.0e-4) 
+        if(fabs(n - n_real) > 1.0e-4)
           throw GreedyException("Currently only power of two exponents are supported for warps");
 
         // Bring the transform into voxel space
@@ -2370,11 +2370,11 @@ void GreedyApproach<VDim, TReal>
   if(param.threads > 0)
     {
     std::cout << "Limiting the number of threads to " << param.threads << std::endl;
-    itk::MultiThreader::SetGlobalMaximumNumberOfThreads(param.threads);
+    itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(param.threads);
     }
   else
     {
-    std::cout << "Executing with the default number of threads: " << itk::MultiThreader::GetGlobalDefaultNumberOfThreads() << std::endl;
+    std::cout << "Executing with the default number of threads: " << itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() << std::endl;
 
     }
 }

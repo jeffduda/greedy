@@ -35,6 +35,7 @@
 #include "itkMultiplyImageFilter.h"
 #include "itkGradientImageFilter.h"
 #include "itkUnaryFunctorImageFilter.h"
+#include "itkBinaryFunctorImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkVectorImage.h"
@@ -57,7 +58,7 @@
 #include "FastWarpCompositeImageFilter.h"
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::new_vf(VelocityField &vf, uint nt, ImageBaseType *ref)
 {
@@ -67,7 +68,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::alloc_vimg(VectorImageType *img, ImageBaseType *ref)
 {
@@ -88,7 +89,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::alloc_mimg(MatrixImageType *img, ImageBaseType *ref)
 {
@@ -135,7 +136,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::alloc_img(ImageType *img, ImageBaseType *ref)
 {
@@ -156,10 +157,10 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
-::init(LDDMMData<TFloat, VDim> &p, 
-  ImageType *fix, ImageType *mov, 
+::init(LDDMMData<TFloat, VDim> &p,
+  ImageType *fix, ImageType *mov,
   uint nt, double alpha, double gamma, double sigma)
 {
   p.fix = fix;
@@ -202,7 +203,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::compute_navier_stokes_kernel(ImageType *kernel, double alpha, double gamma)
 {
@@ -221,7 +222,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::interp_vimg(VectorImageType *data, VectorImageType *field,
   TFloat def_scale, VectorImageType *out, bool use_nn, bool phys_space)
@@ -291,7 +292,7 @@ LDDMMData<TFloat, VDim>
 
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::interp_mimg(MatrixImageType *data, VectorImageType *field,
   MatrixImageType *out, bool use_nn, bool phys_space)
@@ -319,9 +320,9 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
-::interp_img(ImageType *data, VectorImageType *field, ImageType *out, 
+::interp_img(ImageType *data, VectorImageType *field, ImageType *out,
   bool use_nn, bool phys_space, TFloat outside_value)
 {
   typedef FastWarpCompositeImageFilter<ImageType, ImageType, VectorImageType> WF;
@@ -380,7 +381,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::vimg_add_in_place(VectorImageType *trg, VectorImageType *a)
 {
@@ -393,7 +394,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::vimg_subtract_in_place(VectorImageType *trg, VectorImageType *a)
 {
@@ -407,7 +408,7 @@ LDDMMData<TFloat, VDim>
 
 // Scalar math
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::vimg_multiply_in_place(VectorImageType *trg, ImageType *s)
 {
@@ -435,7 +436,7 @@ LDDMMData<TFloat, VDim>
 
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::mimg_multiply_in_place(MatrixImageType *trg, MatrixImageType *s)
 {
@@ -464,7 +465,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::img_subtract_in_place(ImagePointer &trg, ImageType *a)
 {
@@ -477,7 +478,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::img_multiply_in_place(ImagePointer &trg, ImageType *a)
 {
@@ -490,7 +491,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-TFloat 
+TFloat
 LDDMMData<TFloat, VDim>
 ::vimg_euclidean_norm_sq(VectorImageType *trg)
 {
@@ -506,7 +507,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-TFloat 
+TFloat
 LDDMMData<TFloat, VDim>
 ::img_euclidean_norm_sq(ImageType *trg)
 {
@@ -597,7 +598,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-TFloat 
+TFloat
 LDDMMData<TFloat, VDim>
 ::img_voxel_sum(ImageType *trg)
 {
@@ -610,7 +611,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::img_min_max(ImageType *src, TFloat &out_min, TFloat &out_max)
 {
@@ -644,7 +645,7 @@ public:
 };
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::vimg_scale_in_place(VectorImageType *trg, TFloat s)
 {
@@ -662,7 +663,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::vimg_scale(const VectorImageType*src, TFloat s, VectorImageType *trg)
 {
@@ -699,7 +700,7 @@ public:
 };
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::vimg_add_scaled_in_place(VectorImageType *trg, VectorImageType *a, TFloat s)
 {
@@ -740,7 +741,7 @@ public:
 };
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::vimg_euclidean_inner_product(ImagePointer &trg, VectorImageType *a, VectorImageType *b)
 {
@@ -758,7 +759,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::compute_semi_lagrangean_a()
 {
@@ -777,7 +778,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::integrate_phi_t0()
 {
@@ -795,7 +796,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::integrate_phi_t1()
 {
@@ -810,7 +811,7 @@ LDDMMData<TFloat, VDim>
       interp_vimg(f[m+1], a[m], 1.0, f[m]);
       vimg_add_in_place(f[m], a[m]);
       }
-    } 
+    }
 }
 
 template <class TFloat, uint VDim>
@@ -840,7 +841,7 @@ protected:
 };
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::field_jacobian(VectorImageType *vec, MatrixImageType *out)
 {
@@ -891,7 +892,7 @@ public:
 
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::jacobian_of_composition(
     MatrixImageType *Du, MatrixImageType *Dv, VectorImageType *v, MatrixImageType *out_Dw)
@@ -930,7 +931,7 @@ public:
     m_LambdaEye *= lambda;
     }
 
-  bool operator != (const MatrixPlusConstDeterminantFunctor<TFloat, VDim> &other) 
+  bool operator != (const MatrixPlusConstDeterminantFunctor<TFloat, VDim> &other)
     { return m_LambdaEye(0,0) != other.m_LambdaEye(0,0); }
 
 protected:
@@ -940,7 +941,7 @@ protected:
 
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::mimg_det(MatrixImageType *M, double lambda, ImageType *out_det)
 {
@@ -987,10 +988,10 @@ protected:
 };
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::mimg_vimg_product_plus_vimg(
-    MatrixImageType *A, VectorImageType *x, VectorImageType *b, 
+    MatrixImageType *A, VectorImageType *x, VectorImageType *b,
     TFloat lambda, TFloat mu, VectorImageType *out)
 {
   typedef MatrixVectorMultiplyAndAddVectorFunctor<TFloat, VDim> Functor;
@@ -999,7 +1000,7 @@ LDDMMData<TFloat, VDim>
   functor.SetMu(mu);
 
   typedef itk::TernaryFunctorImageFilter<
-    MatrixImageType, VectorImageType, VectorImageType, VectorImageType, 
+    MatrixImageType, VectorImageType, VectorImageType, VectorImageType,
     Functor> FilterType;
 
   typename FilterType::Pointer filter = FilterType::New();
@@ -1014,7 +1015,7 @@ LDDMMData<TFloat, VDim>
 #include "LieBracketFilter.h"
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::lie_bracket(VectorImageType *v, VectorImageType *u, MatrixImageType *work, VectorImageType *out)
 {
@@ -1032,7 +1033,7 @@ LDDMMData<TFloat, VDim>
 
   // Alternative approach
   VectorImagePointer alt = new_vimg(out);
-  
+
   typedef LieBracketFilter<VectorImageType, VectorImageType> LieBracketFilterType;
   typename LieBracketFilterType::Pointer fltLieBracket = LieBracketFilterType::New();
   fltLieBracket->SetFieldU(v);
@@ -1049,7 +1050,7 @@ LDDMMData<TFloat, VDim>
 
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::field_jacobian_det(VectorImageType *vec, ImageType *out)
 {
@@ -1063,7 +1064,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::image_gradient(ImageType *src, VectorImageType *grad)
 {
@@ -1357,7 +1358,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::img_write(ImageType *src, const char *fn, IOComponentType comp)
 {
@@ -1400,7 +1401,7 @@ LDDMMData<TFloat, VDim>
 
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::vimg_write(VectorImageType *src, const char *fn, IOComponentType comp)
 {
@@ -1413,7 +1414,7 @@ LDDMMData<TFloat, VDim>
 
   // Override the data pointer
   output->GetPixelContainer()->SetImportPointer(
-    (TFloat *) src->GetBufferPointer(), 
+    (TFloat *) src->GetBufferPointer(),
     VDim * src->GetPixelContainer()->Size(), false);
 
   // Write
@@ -1446,7 +1447,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::vfield_read(uint nt, const char *fnpat, VelocityField &v)
 {
@@ -1523,7 +1524,7 @@ LDDMMData<TFloat, VDim>
 
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::img_shrink(ImageType *src, ImageType *trg, int factor)
 {
@@ -1536,7 +1537,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::img_resample_identity(ImageType *src, ImageBaseType *ref, ImageType *trg)
 {
@@ -1590,7 +1591,7 @@ LDDMMData<TFloat, VDim>
   // Compute the size of the new image
   typename ImageType::SizeType sz;
   for(int i = 0; i < VDim; i++)
-    sz[i] = (unsigned long) vcl_ceil(src->GetBufferedRegion().GetSize()[i] / factor);
+    sz[i] = (unsigned long) std::ceil(src->GetBufferedRegion().GetSize()[i] / factor);
 
   // Compute the spacing of the new image
   typename ImageType::SpacingType spc_pre = src->GetSpacing();
@@ -1628,7 +1629,7 @@ LDDMMData<TFloat, VDim>
 }
 
 template <class TFloat, uint VDim>
-void 
+void
 LDDMMData<TFloat, VDim>
 ::vimg_resample_identity(VectorImageType *src, ImageBaseType *ref, VectorImageType *trg)
 {
@@ -1902,7 +1903,7 @@ LDDMMImageMatchingObjective<TFloat, VDim>
     fft.convolution_fft(p.v[m], p.f_kernel_sq, false, p.a[0]);
 
     // We're sticking the inner product in Jt0
-    LDDMM::vimg_euclidean_inner_product(Jt0, p.a[0], p.v[m]); 
+    LDDMM::vimg_euclidean_inner_product(Jt0, p.a[0], p.v[m]);
     e_field += LDDMM::img_voxel_sum(Jt0) / p.nt;
     }
 
@@ -1921,7 +1922,7 @@ LDDMMImageMatchingObjective<TFloat, VDim>
     // TODO: for ft00 and ft11, don't waste time on interpolation
 
     // Jt1 = lddmm_warp_scalar_field(p.I1, ft1x(:,:,it), ft1y(:,:,it), p);
-    LDDMM::interp_img(p.mov, p.f[m], Jt1); 
+    LDDMM::interp_img(p.mov, p.f[m], Jt1);
 
     // detjac_phi_t1 = lddmm_jacobian_determinant(ft1x(:,:,it), ft1y(:,:,it), p);
     LDDMM::field_jacobian_det(p.f[m], DetPhit1);
@@ -1937,19 +1938,19 @@ LDDMMImageMatchingObjective<TFloat, VDim>
       LDDMM::vimg_subtract_in_place(p.f[m], p.a[m]);
       }
 
-    // Jt0 = lddmm_warp_scalar_field(p.I0, ft0x(:,:,it), ft0y(:,:,it), p); 
-    LDDMM::interp_img(p.fix, p.f[m], Jt0); 
+    // Jt0 = lddmm_warp_scalar_field(p.I0, ft0x(:,:,it), ft0y(:,:,it), p);
+    LDDMM::interp_img(p.fix, p.f[m], Jt0);
 
     // [grad_Jt0_x grad_Jt0_y] = gradient(Jt0);
     LDDMM::image_gradient(Jt0, GradJt0);
 
-    // pde_rhs_x = detjac_phi_t1 .* (Jt0 - Jt1) .* grad_Jt0_x; 
-    // pde_rhs_y = detjac_phi_t1 .* (Jt0 - Jt1) .* grad_Jt0_y; 
+    // pde_rhs_x = detjac_phi_t1 .* (Jt0 - Jt1) .* grad_Jt0_x;
+    // pde_rhs_y = detjac_phi_t1 .* (Jt0 - Jt1) .* grad_Jt0_y;
 
     // Here we do some small tricks. We want to retain Jt0 because it's the warped
     // template image, and we want to retain the difference Jt0-Jt1 = (J0-I1) for
-    // calculating the objective at the end. 
-    LDDMM::img_subtract_in_place(Jt1, Jt0);           // 'Jt1' stores Jt1 - Jt0 
+    // calculating the objective at the end.
+    LDDMM::img_subtract_in_place(Jt1, Jt0);           // 'Jt1' stores Jt1 - Jt0
     LDDMM::img_multiply_in_place(DetPhit1, Jt1);      // 'DetPhit1' stores (det Phi_t1)(Jt1-Jt0)
     LDDMM::vimg_multiply_in_place(GradJt0, DetPhit1); // 'GradJt0' stores  GradJt0 * (det Phi_t1)(Jt1-Jt0)
 
@@ -1959,7 +1960,7 @@ LDDMMImageMatchingObjective<TFloat, VDim>
     fft.convolution_fft(GradJt0, p.f_kernel_sq, true, GradJt0); // 'GradJt0' stores K[ GradJt0 * (det Phi_t1)(Jt1-Jt0) ]
 
     // dedvx(:,:,it) = dedvx(:,:,it) - 2 * pde_soln_x / p.sigma^2;
-    // dedvy(:,:,it) = dedvy(:,:,it) - 2 * pde_soln_y / p.sigma^2;        
+    // dedvy(:,:,it) = dedvy(:,:,it) - 2 * pde_soln_y / p.sigma^2;
 
     // Store the update in a[m]
     LDDMM::vimg_scale_in_place(GradJt0, 1.0 / p.sigma_sq); // 'GradJt0' stores 1 / sigma^2 K[ GradJt0 * (det Phi_t1)(Jt1-Jt0) ]
@@ -1992,4 +1993,3 @@ template class LDDMMFFTInterface<double, 4>;
 
 template class LDDMMImageMatchingObjective<myreal, 2>;
 template class LDDMMImageMatchingObjective<myreal, 3>;
-

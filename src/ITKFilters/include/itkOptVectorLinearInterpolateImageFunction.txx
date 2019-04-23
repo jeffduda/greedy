@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -83,13 +83,13 @@ OptVectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
     baseIndex[dim] = Math::Floor<IndexValueType>( index[dim] );
     distance[dim] = index[dim] - static_cast< double >( baseIndex[dim] );
     }
-  
+
   /**
    * Interpolated value is the weighted sum of each of the surrounding
    * neighbors. The weight for each neighbor is the fraction overlap
    * of the neighbor pixel with respect to a pixel centered on point.
    */
-  InputPixelType value = NumericTraits<RealType>::Zero;
+  InputPixelType value = NumericTraits<InputPixelType>::ZeroValue();
 
   typedef typename NumericTraits<InputPixelType>::ScalarRealType ScalarRealType;
   ScalarRealType totalOverlap = NumericTraits<ScalarRealType>::Zero;
@@ -135,7 +135,7 @@ OptVectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
       upper >>= 1;
 
       }
-    
+
     // get neighbor value only if overlap is not zero
     if( overlap )
       {
