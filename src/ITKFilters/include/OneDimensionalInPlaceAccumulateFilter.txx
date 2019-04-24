@@ -38,6 +38,7 @@ OneDimensionalInPlaceAccumulateFilter<TInputImage>
   m_ComponentOffsetFront = m_ComponentOffsetBack = 0;
   m_Splitter = SplitterType::New();
   this->InPlaceOn();
+  this->DynamicMultiThreadingOff();
 }
 
 template <class TInputImage>
@@ -444,7 +445,7 @@ OneDimensionalInPlaceAccumulateFilterWorker<float, TInputImage>
       {
 #ifndef WIN32
       __builtin_prefetch(p_src + 5 * jump, 0, 0);
-#endif 
+#endif
 
       for (i = 0; i < nc_used; i++)
         p_copy[i] = p_src[i];

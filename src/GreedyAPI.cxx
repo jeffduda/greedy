@@ -2374,7 +2374,7 @@ void GreedyApproach<VDim, TReal>
   else
     {
     std::cout << "Executing with the default number of threads: " << itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() << std::endl;
-
+    itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
     }
 }
 

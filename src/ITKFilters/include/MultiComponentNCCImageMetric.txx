@@ -45,6 +45,7 @@ MultiImageNCCPrecomputeFilter<TMetricTraits,TOutputImage>
 {
   m_Parent = NULL;
   m_FlagGenerateFixedComponents = true;
+  this->DynamicMultiThreadingOff();
 }
 
 /**
@@ -638,4 +639,3 @@ MultiComponentNCCImageMetric<TMetricTraits>
 
 
 #endif // __MultiComponentNCCImageMetric_txx
-

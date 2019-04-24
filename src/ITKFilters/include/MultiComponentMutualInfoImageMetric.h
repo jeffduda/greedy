@@ -166,7 +166,9 @@ protected:
 
 protected:
   MultiComponentMutualInfoImageMetric()
-    : m_Bins(32), m_ComputeNormalizedMutualInformation(false) { }
+    : m_Bins(32), m_ComputeNormalizedMutualInformation(false) {
+    this->DynamicMultiThreadingOff();
+  }
 
   ~MultiComponentMutualInfoImageMetric() {}
 
