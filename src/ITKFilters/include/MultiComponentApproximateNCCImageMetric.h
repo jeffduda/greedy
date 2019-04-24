@@ -103,7 +103,10 @@ public:
 
 protected:
   MultiComponentApproximateNCCImageMetric()
-    { m_Radius.Fill(1); }
+    {
+    m_Radius.Fill(1);
+    this->DynamicMultiThreadingOff();
+    }
 
   ~MultiComponentApproximateNCCImageMetric() {}
 

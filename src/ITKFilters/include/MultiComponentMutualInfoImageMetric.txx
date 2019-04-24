@@ -442,6 +442,7 @@ MutualInformationPreprocessingFilter<TInputImage, TOutputImage>
 
   m_NoRemapping = false;
   m_StartAtBinOne = false;
+  this->DynamicMultiThreadingOff();
 }
 
 template <class TInputImage, class TOutputImage>

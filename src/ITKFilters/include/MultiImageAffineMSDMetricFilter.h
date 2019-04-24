@@ -137,7 +137,9 @@ public:
   itkGetMacro(MetricValue, double)
 
 protected:
-  MultiImageAffineMetricFilter() : m_ComputeGradient(false) {}
+  MultiImageAffineMetricFilter() : m_ComputeGradient(false) {
+    this->DynamicMultiThreadingOff();
+  }
   ~MultiImageAffineMetricFilter() {}
 
   void PrintSelf(std::ostream& os, itk::Indent indent) const

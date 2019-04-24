@@ -54,7 +54,7 @@ struct DefaultMahalanobisDistanceToTargetMetricTraits
 };
 
 /**
- * This metric computes the Mahalanobis distance between the displacement field 
+ * This metric computes the Mahalanobis distance between the displacement field
  * and a multivariate Gaussian density on displacement at every voxel. The Gaussian
  * density is passed in as the fixed image, and encoded in a multi-component image
  * that at each voxel stores the mean displacement and the upper triangle and diagonal
@@ -122,7 +122,9 @@ protected:
                                     itk::ThreadIdType threadId ) ITK_OVERRIDE;
 
 protected:
-  MahalanobisDistanceToTargetWarpMetric() {}
+  MahalanobisDistanceToTargetWarpMetric() {
+    this->DynamicMultiThreadingOff();
+  }
 
   ~MahalanobisDistanceToTargetWarpMetric() {}
 

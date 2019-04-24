@@ -85,7 +85,9 @@ public:
 
 protected:
 
-  LinearTransformToWarpFilter() {}
+  LinearTransformToWarpFilter() {
+    this->DynamicMultiThreadingOff();
+  }
   virtual ~LinearTransformToWarpFilter() {}
 
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
@@ -103,4 +105,3 @@ private:
 #endif
 
 #endif // LINEARTRANSFORMTOWARPFILTER_H
-

@@ -29,7 +29,7 @@
 
 #include <itkImageToImageFilter.h>
 
-/** 
+/**
  * A class that computes a Jacobian determinant field from a warp field
  */
 template <class TInputImage, class TOutputImage>
@@ -71,7 +71,9 @@ public:
 
 protected:
 
-  JacobianDeterminantImageFilter() {}
+  JacobianDeterminantImageFilter() {
+    this->DynamicMultiThreadingOff();
+  }
   ~JacobianDeterminantImageFilter() {}
 
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,

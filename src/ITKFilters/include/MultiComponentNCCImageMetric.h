@@ -123,7 +123,10 @@ public:
 protected:
   MultiComponentNCCImageMetric()
     : m_ApproximateGradient(false), m_ReuseWorkingImageFixedComponents(false)
-    { m_Radius.Fill(1); }
+    {
+      m_Radius.Fill(1);
+      this->DynamicMultiThreadingOff();
+     }
 
   ~MultiComponentNCCImageMetric() {}
 

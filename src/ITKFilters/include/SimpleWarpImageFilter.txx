@@ -45,11 +45,12 @@ SimpleWarpImageFilter<TInputImage,TOutputImage,TDeformationField,TFloat>
 ::SimpleWarpImageFilter()
 {
   // Setup the number of required inputs
-  this->SetNumberOfRequiredInputs( 2 );  
-  
+  this->SetNumberOfRequiredInputs( 2 );
+
   // Setup default values
   m_Interpolator = NULL;
   m_EdgePaddingValue = NumericTraits<PixelType>::Zero;
+  this->DynamicMultiThreadingOff();
 }
 
 /**
@@ -78,7 +79,7 @@ SimpleWarpImageFilter<TInputImage,TOutputImage,TDeformationField,TFloat>
   const DeformationFieldType * field )
 {
   // const cast is needed because the pipeline is not const-correct.
-  DeformationFieldType * input =  
+  DeformationFieldType * input =
        const_cast< DeformationFieldType * >( field );
   this->ProcessObject::SetNthInput( 1, input );
 }
@@ -116,7 +117,7 @@ SimpleWarpImageFilter<TInputImage,TOutputImage,TDeformationField,TFloat>
 
   // Connect input image to interpolator
   m_Interpolator->SetInputImage( this->GetInput() );
-  typename DeformationFieldType::RegionType defRegion = 
+  typename DeformationFieldType::RegionType defRegion =
     fieldPtr->GetLargestPossibleRegion();
   typename OutputImageType::RegionType outRegion =
     this->GetOutput()->GetLargestPossibleRegion();
@@ -154,9 +155,9 @@ SimpleWarpImageFilter<TInputImage,TOutputImage,TDeformationField,TFloat>
   IndexType index;
   itk::ContinuousIndex<TFloat,ImageDimension> cix;
   DisplacementType displacement;
-  
+
   // iterator for the deformation field
-  ImageRegionIterator<DeformationFieldType> 
+  ImageRegionIterator<DeformationFieldType>
     fieldIt(fieldPtr, outputRegionForThread );
 
   while( !outputIt.IsAtEnd() )
@@ -176,16 +177,16 @@ SimpleWarpImageFilter<TInputImage,TOutputImage,TDeformationField,TFloat>
     // get the interpolated value
     if( m_Interpolator->IsInsideBuffer( cix ) )
       {
-      PixelType value = 
+      PixelType value =
         static_cast<PixelType>(m_Interpolator->EvaluateAtContinuousIndex( cix ) );
       outputIt.Set( value );
       }
     else
       {
       outputIt.Set( m_EdgePaddingValue );
-      }   
+      }
     ++outputIt;
-    ++fieldIt; 
+    ++fieldIt;
     }
 }
 
@@ -200,7 +201,7 @@ SimpleWarpImageFilter<TInputImage,TOutputImage,TDeformationField,TFloat>
   Superclass::GenerateInputRequestedRegion();
 
   // request the largest possible region for the input image
-  InputImagePointer inputPtr = 
+  InputImagePointer inputPtr =
     const_cast< InputImageType * >( this->GetInput() );
 
   if( inputPtr )
@@ -208,7 +209,7 @@ SimpleWarpImageFilter<TInputImage,TOutputImage,TDeformationField,TFloat>
     inputPtr->SetRequestedRegionToLargestPossibleRegion();
     }
 
-  // just propagate up the output requested region for the 
+  // just propagate up the output requested region for the
   // deformation field.
   DeformationFieldPointer fieldPtr = this->GetDeformationField();
   OutputImagePointer outputPtr = this->GetOutput();
