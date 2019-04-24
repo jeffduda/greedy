@@ -1154,7 +1154,6 @@ int GreedyApproach<VDim, TReal>
         {
         // Begin gradient computation
         tm_Gradient.Start();
-
         vnl_vector<double> all_metrics =
             of_helper.ComputeOpticalFlowField(level, uFull, iTemp, uk1, eps)  / eps;
 

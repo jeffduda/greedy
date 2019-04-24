@@ -120,7 +120,8 @@ protected:
 
   FastWarpCompositeImageFilter()
   : m_UsePhysicalSpace(false), m_DeformationScaling(1.0),
-    m_UseNearestNeighbor(false), m_ExtrapolateBorders(true), m_OutsideValue(0.0) { }
+    m_UseNearestNeighbor(false), m_ExtrapolateBorders(true), m_OutsideValue(0.0) {
+    this->DynamicMultiThreadingOff(); }
 
   ~FastWarpCompositeImageFilter() {}
 

@@ -37,7 +37,17 @@
 #include "FastLinearInterpolator.h"
 #include "ImageRegionConstIteratorWithIndexOverride.h"
 
-
+template <class TMetricTraits>
+MultiImageOpticalFlowImageFilter<TMetricTraits>
+::MultiImageOpticalFlowImageFilter()
+{
+  // Create the outputs of this filter
+  this->SetPrimaryOutput(this->MakeOutput("Primary"));
+  this->m_ComputeGradient = false;
+  this->m_ComputeMovingDomainMask = false;
+  this->m_ComputeAffine = false;
+  this->DynamicMultiThreadingOff();
+}
 
 /**
  * Compute the output for the region specified by outputRegionForThread.

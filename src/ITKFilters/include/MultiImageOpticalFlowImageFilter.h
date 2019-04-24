@@ -113,7 +113,7 @@ public:
   virtual double GetGradientScalingFactor() const ITK_OVERRIDE { return -2.0; }
 
 protected:
-  MultiImageOpticalFlowImageFilter() {}
+  MultiImageOpticalFlowImageFilter();
   ~MultiImageOpticalFlowImageFilter() {}
 
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,

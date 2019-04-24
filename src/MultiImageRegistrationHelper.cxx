@@ -968,7 +968,9 @@ public:
   void SetFunctor(const TFunctor &f) { this->m_Functor = f; }
 
 protected:
-  UnaryPositionBasedFunctorImageFilter() {}
+  UnaryPositionBasedFunctorImageFilter() {
+    this->DynamicMultiThreadingOff();
+  }
   ~UnaryPositionBasedFunctorImageFilter() {}
 
   virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
